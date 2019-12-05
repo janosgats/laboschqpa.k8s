@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  labels:
+    component: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      component: server
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: server
+          image: gjani/laboschcst-server:dev8
+          ports:
+            - containerPort: 8080
+            - containerPort: 5005
+          volumeMounts:
+          - mountPath: "/app/secret/"
+            name: api-keys   
+      volumes:
+        - name: api-keys
+          secret:
+            secretName: api-keys

@@ -1,16 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: server-nodeport
+  name: server-nodeport-remotedebug
 spec:
   type: NodePort
   selector:
     component: server
   ports:
-  - name: http-server
-    port: 8080
-    targetPort: 8080
-    nodePort: 30080
   - name: remote-debug
     port: 30005
     targetPort: 30005

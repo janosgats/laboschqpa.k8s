@@ -9,7 +9,11 @@ spec:
   rules:
     - http:
         paths:
-            - path: /?(.*)
+            - path: /server/?(.*)
               backend:
                 serviceName: server-cluster-ip
                 servicePort: 8080
+            - path: /?(.*)
+              backend:
+                serviceName: frontend-cluster-ip
+                servicePort: 3000

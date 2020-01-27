@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    component: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      component: frontend
+  template:
+    metadata:
+      labels:
+        component: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: szalkaikrisztian/laboschcst-frontend
+          ports:
+            - containerPort: 3000
+            - containerPort: 30015

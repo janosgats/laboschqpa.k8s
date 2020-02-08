@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    component: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels: 
+      component: db
+  template:
+    metadata:
+      labels:
+        component: db
+    spec:
+      containers:
+        - name: db
+          image: mysql:5
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: rootpw
+            - name: MYSQL_DATABASE
+              value: labosch_cst

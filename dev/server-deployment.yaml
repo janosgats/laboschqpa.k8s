@@ -21,9 +21,9 @@ spec:
             - containerPort: 8080
             - containerPort: 5005
           volumeMounts:
-          - mountPath: "/app/api_keys/"
-            name: api-keys   
+          - mountPath: "/app/secret/"
+            name: secrets
       volumes:
-        - name: api-keys
+        - name: secrets
           secret:
-            secretName: api-keys
+            secretName: laboschcst-server-secrets

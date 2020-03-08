@@ -15,6 +15,11 @@ spec:
               backend:
                 serviceName: server-cluster-ip
                 servicePort: 8080
+            - path: /filehost/(.*)
+#            - path: /?(filehost/)(.*)  # TODO: Turn this on, when react frontend is ready!
+              backend:
+                serviceName: filehost-cluster-ip
+                servicePort: 4200
             - path: /?(.*)
 #            - path: /?(.*)(.*)  # TODO: Turn this on, when react frontend is ready!
               backend:

@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: server
+  name: filehost
   labels:
-    component: server
+    component: filehost
 spec:
   replicas: 1
   selector:
     matchLabels: 
-      component: server
+      component: filehost
   template:
     metadata:
       labels:
-        component: server
+        component: filehost
     spec:
       containers:
-        - name: server
-          image: gjani/laboschcst-server
+        - name: filehost
+          image: gjani/laboschcst-filehost
           ports:
-            - containerPort: 8080
+            - containerPort: 4200
           volumeMounts:
           - mountPath: "/app/secret/"
             name: secrets
       volumes:
         - name: secrets
           secret:
-            secretName: laboschcst-server-secrets
+            secretName: laboschcst-filehost-secrets

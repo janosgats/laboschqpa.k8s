@@ -22,7 +22,12 @@ spec:
           volumeMounts:
           - mountPath: "/app/secret/"
             name: secrets
+          - mountPath: "/srv/filehost/storedfiles/"
+            name: filehost-storedfiles
       volumes:
         - name: secrets
           secret:
             secretName: laboschcst-filehost-secrets
+        - name: filehost-storedfiles
+          persistentVolumeClaim:
+            claimName: filehost-pvc-storedfiles

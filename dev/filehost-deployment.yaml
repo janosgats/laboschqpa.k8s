@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: filehost
-          image: gjani/laboschcst-filehost
+          image: gjani/laboschqpa-filehost
           ports:
             - containerPort: 4200
           volumeMounts:
@@ -27,7 +27,7 @@ spec:
       volumes:
         - name: secrets
           secret:
-            secretName: laboschcst-filehost-secrets
+            secretName: laboschqpa-filehost-secrets
         - name: filehost-storedfiles
           persistentVolumeClaim:
             claimName: filehost-pvc-storedfiles

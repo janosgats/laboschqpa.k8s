@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: gjani/laboschcst-server
+          image: gjani/laboschqpa-server
           ports:
             - containerPort: 8080
           volumeMounts:
@@ -25,4 +25,4 @@ spec:
       volumes:
         - name: secrets
           secret:
-            secretName: laboschcst-server-secrets
+            secretName: laboschqpa-server-secrets

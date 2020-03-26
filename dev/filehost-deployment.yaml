@@ -22,7 +22,7 @@ spec:
           volumeMounts:
           - mountPath: "/app/secret/"
             name: secrets
-          - mountPath: "/srv/filehost/storedfiles/"
+          - mountPath: "/srv/filehost/storedfiles/mnt1/"
             name: filehost-storedfiles
       volumes:
         - name: secrets

@@ -14,6 +14,10 @@ spec:
       labels:
         component: filehost
     spec:
+      securityContext:
+        runAsUser: 10002
+        runAsGroup: 10002
+        fsGroup: 10003
       containers:
         - name: filehost
           image: gjani/laboschqpa-filehost

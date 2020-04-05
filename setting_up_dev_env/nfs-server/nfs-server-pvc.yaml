@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: filehost-pvc-storedfiles
+  name: nfs-server-pvc
 spec:
   storageClassName: manual
-  volumeName: pv-volume-filehost-storedfiles
+  volumeName: pv-volume-nfs-server
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
-      storage: 200Mi
+      storage: 400Mi

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: frontend-pvc-nodemodules-for-dev
+spec:
+  storageClassName: manual
+  volumeName: pv-volume-frontend-nodemodules-for-dev
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 1

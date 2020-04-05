@@ -15,19 +15,17 @@ spec:
         component: filehost
     spec:
       securityContext:
-        runAsUser: 10002
-        runAsGroup: 10002
-        fsGroup: 10003
+        fsGroup: 10002
       containers:
         - name: filehost
           image: gjani/laboschqpa-filehost
           ports:
             - containerPort: 4200
           volumeMounts:
-          - mountPath: "/app/secret/"
-            name: secrets
-          - mountPath: "/srv/filehost/storedfiles/mnt1/"
-            name: filehost-storedfiles
+            - mountPath: "/app/secret/"
+              name: secrets
+            - mountPath: "/srv/filehost/storedfiles/mnt1/"
+              name: filehost-storedfiles
       volumes:
         - name: secrets
           secret:

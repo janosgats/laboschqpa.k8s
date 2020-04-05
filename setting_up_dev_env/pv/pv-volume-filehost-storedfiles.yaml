@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-volume-filehost-storedfiles
+spec:
+  storageClassName: manual
+  claimRef:
+    namespace: default
+    name: filehost-pvc-storedfiles
+  capacity:
+    storage: 40Gi
+  accessModes:
+    - ReadWriteMany
+    #  accessModes:
+    #    - ReadWriteMany
+    #  hostPath:
+    #    path: "/host_mnt/c/k8s/persistent_volume/filehost/storedfiles"
+  nfs:
+    server: 10.96.10.96
+    path: "/"

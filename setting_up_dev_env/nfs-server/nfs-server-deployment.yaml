@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: nfs-server
+  template:
+    metadata:
+      labels:
+        component: nfs-server
+    spec:
+      securityContext:
+        fsGroup: 10002
+      containers:
+        - name: nfs-server
+          image: erichough/nfs-server
+          env:
+            - name: NFS_DISABLE_VERSION_3
+              value: "1"
+            - name: NFS_SERVER_THREAD_COUNT
+              value: "8"
+            - name: SHARED_DIRECTORY
+              value: /nfs
+            - name: NFS_EXPORT_0
+              value: /nfs *(rw,subtree_check,fsid=0)
+            - name: NFS_LOG_LEVEL
+              value: DEBUG
+          ports:
+            - name: nfs
+              containerPort: 2049
+          securityContext:
+            capabilities:
+              add:
+                - SYS_ADMIN
+          volumeMounts:
+            - mountPath: /nfs
+              name: nfs-volume
+      volumes:
+        - name: nfs-volume
+          persistentVolumeClaim:
+            claimName: nfs-server-pvc

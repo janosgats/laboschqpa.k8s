@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfs-server-cluster-ip
+spec:
+  clusterIP: 10.96.10.96
+  selector:
+    component: nfs-server
+  ports:
+    - name: nfs
+      port: 2049

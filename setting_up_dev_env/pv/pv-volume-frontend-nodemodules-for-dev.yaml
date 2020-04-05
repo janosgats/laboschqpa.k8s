@@ -11,6 +11,6 @@ spec:
     - ReadOnlyMany
   persistentVolumeReclaimPolicy: Delete
   hostPath:
-    path: "DEV_ENV_FRONTEND_NODE_MODULES_FOLDER_HOST_PATH_PLACEHOLDER"
+    path: 'DEV_ENV_FRONTEND_NODE_MODULES_FOLDER_HOST_PATH_PLACEHOLDER'
   capacity:
     storage: 1

@@ -4,24 +4,26 @@ metadata:
   name: ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
-#    nginx.ingress.kubernetes.io/rewrite-target: /$1$2  # TODO: Turn this on, when react frontend is ready!
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
 spec:
   rules:
     - http:
         paths:
-            - path: /server/(.*)
-#            - path: /?(server/)(.*)  # TODO: Turn this on, when react frontend is ready!
+            - path: /?server/()(.*)
               backend:
                 serviceName: server-cluster-ip
                 servicePort: 8080
-            - path: /filehost/(.*)
-#            - path: /?(filehost/)(.*)  # TODO: Turn this on, when react frontend is ready!
+            - path: /?(login/oauth2/code/)(.*)
+              backend:
+                serviceName: server-cluster-ip
+                servicePort: 8080
+
+            - path: /?(filehost/)(.*)
               backend:
                 serviceName: filehost-cluster-ip
                 servicePort: 4200
-            - path: /?(.*)
-#            - path: /?(.*)(.*)  # TODO: Turn this on, when react frontend is ready!
+
+            - path: /?(.*)(.*)
               backend:
                 serviceName: frontend-cluster-ip
                 servicePort: 3000

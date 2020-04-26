@@ -19,6 +19,7 @@ spec:
       containers:
         - name: filehost
           image: gjani/laboschqpa-filehost
+          command: ["java", "-jar", "-Dspring.profiles.active=k8s_dev",  "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:30006", "laboschqpa.filehost.jar"]
           ports:
             - containerPort: 4200
           volumeMounts:

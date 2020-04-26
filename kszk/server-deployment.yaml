@@ -20,6 +20,7 @@ spec:
       containers:
         - name: server
           image: gjani/laboschqpa-server
+          command: ["java", "-jar", "-Dspring.profiles.active=k8s_dev", "laboschqpa.server.jar"]
           readinessProbe:
             httpGet:
               path: /

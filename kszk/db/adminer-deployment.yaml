@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminer
+  labels:
+    component: adminer
+  namespace: csillagtura-sch-bme-hu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: adminer
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: adminer
+    spec:
+      containers:
+        - name: adminer
+          image: adminer
+          resources:
+            limits:
+              memory: 50Mi
+            requests:
+              memory: 20Mi
+          ports:
+            - containerPort: 8080

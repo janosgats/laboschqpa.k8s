@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  labels:
+    component: server
+  namespace: csillagtura-sch-bme-hu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        component: server
+    spec:
+      containers:
+        - name: server
+          image: gjani/laboschqpa-server
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 8
+            periodSeconds: 4
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: "/app/secret/"
+              name: secrets
+          resources:
+            limits:
+              memory: 450Mi
+            requests:
+              memory: 260Mi
+      volumes:
+        - name: secrets
+          secret:
+            secretName: laboschqpa-server-secrets

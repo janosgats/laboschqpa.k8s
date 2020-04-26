@@ -9,7 +9,7 @@ spec:
   rules:
     - http:
         paths:
-            - path: /?server/()(.*)
+            - path: /?server/(.*)()
               backend:
                 serviceName: server-cluster-ip
                 servicePort: 8080
@@ -18,7 +18,7 @@ spec:
                 serviceName: server-cluster-ip
                 servicePort: 8080
 
-            - path: /?filehost/()(.*)
+            - path: /?filehost/(.*)()
               backend:
                 serviceName: filehost-cluster-ip
                 servicePort: 4200

@@ -1,0 +1,48 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: cst-ingress-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    #nginx.ingress.kubernetes.io/force-ssl-redirect: "true" #TODO: fix the cert and enable this
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
+  namespace: csillagtura-sch-bme-hu
+  labels:
+    app: csillagtura-sch-bme-hu
+spec:
+  rules:
+    - host: cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?server/(.*)()
+            backend:
+              serviceName: server-cluster-ip
+              servicePort: 8080
+          - path: /?(login/oauth2/code/)(.*)
+            backend:
+              serviceName: server-cluster-ip
+              servicePort: 8080
+
+          - path: /?filehost/()(.*)
+            backend:
+              serviceName: filehost-cluster-ip
+              servicePort: 4200
+
+          - path: /?(.*)(.*)
+            backend:
+              serviceName: frontend-cluster-ip
+              servicePort: 3000
+    - host: server.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: server-cluster-ip
+              servicePort: 8080
+    - host: adminer.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: adminer-cluster-ip
+              servicePort: 8080

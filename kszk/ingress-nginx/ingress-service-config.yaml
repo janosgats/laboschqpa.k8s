@@ -4,7 +4,8 @@ metadata:
   name: cst-ingress-service
   annotations:
     kubernetes.io/ingress.class: nginx
-    #nginx.ingress.kubernetes.io/force-ssl-redirect: "true" #TODO: fix the cert and enable this
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$1$2
   namespace: csillagtura-sch-bme-hu
   labels:
@@ -46,3 +47,10 @@ spec:
             backend:
               serviceName: adminer-cluster-ip
               servicePort: 8080
+  tls:
+    - hosts:
+        - cst.k8s.sch.bme.hu
+        - server.cst.k8s.sch.bme.hu
+        - filehost.cst.k8s.sch.bme.hu
+        - adminer.cst.k8s.sch.bme.hu
+      secretName: tls-cert-cst

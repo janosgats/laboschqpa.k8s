@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev
+  labels:
+    component: dev
+  namespace: csillagtura-sch-bme-hu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: dev
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: dev
+    spec:
+      containers:
+        - name: dev
+          image: centos
+          command:
+            - "sh"
+            - "-c"
+          args:
+            - "yum install -y nfs-utils nmap; sleep 99999999"
+          securityContext:
+            privileged: true
+#          volumeMounts:
+#            - mountPath: "/opt/graphite/storage"
+#              name: graphite-storage
+          resources:
+            limits:
+              memory: 400Mi
+            requests:
+              memory: 200Mi
+#      volumes:
+#        - name: graphite-storage
+#          persistentVolumeClaim:
+#            claimName: graphite-storage-pvc

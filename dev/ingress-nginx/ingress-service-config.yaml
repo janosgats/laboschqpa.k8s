@@ -7,23 +7,38 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1$2
 spec:
   rules:
-    - http:
+    - host: localhost
+      http:
         paths:
-            - path: /?server/(.*)()
-              backend:
-                serviceName: server-cluster-ip
-                servicePort: 8080
-            - path: /?(login/oauth2/code/)(.*)
-              backend:
-                serviceName: server-cluster-ip
-                servicePort: 8080
+          - path: /?server/(.*)()
+            backend:
+              serviceName: server-cluster-ip
+              servicePort: 8080
+          - path: /?(login/oauth2/code/)(.*)
+            backend:
+              serviceName: server-cluster-ip
+              servicePort: 8080
 
-            - path: /?filehost/(.*)()
-              backend:
-                serviceName: filehost-cluster-ip
-                servicePort: 4200
+          - path: /?filehost/(.*)()
+            backend:
+              serviceName: filehost-cluster-ip
+              servicePort: 4200
 
-            - path: /?(.*)(.*)
-              backend:
-                serviceName: frontend-cluster-ip
-                servicePort: 3000
+          - path: /?(.*)(.*)
+            backend:
+              serviceName: frontend-cluster-ip
+              servicePort: 3000
+    - host: grafana.local
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: grafana-cluster-ip
+              servicePort: 3000
+    - host: graphite.local
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: graphite-cluster-ip
+              servicePort: 80

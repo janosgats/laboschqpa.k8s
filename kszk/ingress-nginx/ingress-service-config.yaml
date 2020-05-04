@@ -47,10 +47,26 @@ spec:
             backend:
               serviceName: adminer-cluster-ip
               servicePort: 8080
+    - host: grafana.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: grafana-cluster-ip
+              servicePort: 3000
+    - host: graphite.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: graphite-cluster-ip
+              servicePort: 80
   tls:
     - hosts:
         - cst.k8s.sch.bme.hu
         - server.cst.k8s.sch.bme.hu
         - filehost.cst.k8s.sch.bme.hu
         - adminer.cst.k8s.sch.bme.hu
+        - grafana.cst.k8s.sch.bme.hu
+        - graphite.cst.k8s.sch.bme.hu
       secretName: tls-cert-cst

@@ -36,9 +36,9 @@ spec:
               name: grafana-data
           resources:
             limits:
-              memory: 100Mi
+              memory: 60Mi
             requests:
-              memory: 50Mi
+              memory: 30Mi
       volumes:
           - name: grafana-data
             persistentVolumeClaim:

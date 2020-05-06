@@ -50,7 +50,7 @@ spec:
               name: graphite-storage
           resources:
             limits:
-              memory: 300Mi
+              memory: 240Mi
             requests:
               memory: 200Mi
       volumes:

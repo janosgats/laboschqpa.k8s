@@ -37,7 +37,7 @@ spec:
             limits:
               memory: 350Mi
             requests:
-              memory: 2800Mi
+              memory: 280Mi
       volumes:
         - name: secrets
           secret:

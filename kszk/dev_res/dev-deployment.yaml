@@ -24,7 +24,7 @@ spec:
             - "sh"
             - "-c"
           args:
-            - "yum install -y nfs-utils nmap; sleep 99999999"
+            - "yum install -y nfs-utils nmap unzip wget java && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.2.zip && unzip apache-jmeter-5.2.zip && sleep 99999999"
           securityContext:
             privileged: true
 #          volumeMounts:
@@ -34,7 +34,7 @@ spec:
             limits:
               memory: 400Mi
             requests:
-              memory: 200Mi
+              memory: 100Mi
 #      volumes:
 #        - name: graphite-storage
 #          persistentVolumeClaim:

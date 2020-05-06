@@ -21,7 +21,7 @@ spec:
         - name: server
           imagePullPolicy: Always
           image: gjani/laboschqpa-server:master
-          command: ["java", "-XX:+PrintFlagsFinal", "-Xmx130m", "-jar", "-Dspring.profiles.active=kszk_staging", "laboschqpa.server.jar"]
+          command: ["java", "-XX:+PrintFlagsFinal", "-Xmx90m", "-jar", "-Dspring.profiles.active=kszk_staging", "laboschqpa.server.jar"]
           readinessProbe:
             httpGet:
               path: /
@@ -35,9 +35,9 @@ spec:
               name: secrets
           resources:
             limits:
-              memory: 400Mi
+              memory: 420Mi
             requests:
-              memory: 280Mi
+              memory: 300Mi
       volumes:
         - name: secrets
           secret:

@@ -46,8 +46,12 @@ spec:
               protocol: UDP
             - containerPort: 8126
           volumeMounts:
-            - mountPath: "/opt/graphite/storage"
-              name: graphite-storage
+            - name: graphite-storage
+              mountPath: "/opt/graphite/storage"
+            - name: graphite-conf
+              mountPath: "/opt/graphite/conf/storage-aggregation.conf"
+              subPath: "storage-aggregation.conf"
+              readOnly: true
           resources:
             limits:
               memory: 260Mi
@@ -57,3 +61,6 @@ spec:
         - name: graphite-storage
           persistentVolumeClaim:
             claimName: graphite-storage-pvc
+        - name: graphite-conf
+          configMap:
+            name: graphite-configmap-conf

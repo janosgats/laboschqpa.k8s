@@ -27,6 +27,7 @@ spec:
               name: secrets
             - mountPath: "/srv/filehost/storedfiles/mnt1/"
               name: filehost-storedfiles
+              readOnly: true
       volumes:
         - name: secrets
           secret:

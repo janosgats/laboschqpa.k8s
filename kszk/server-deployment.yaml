@@ -33,6 +33,7 @@ spec:
           volumeMounts:
             - mountPath: "/app/secret/"
               name: secrets
+              readOnly: true
           resources:
             limits:
               memory: 420Mi

@@ -23,6 +23,7 @@ spec:
           volumeMounts:
           - mountPath: "/app/secret/"
             name: secrets
+            readOnly: true
       volumes:
         - name: secrets
           secret:

@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: graphite-configmap-conf
+data:
+  storage-aggregation.conf: |
+    # File data from k8s ConfigMap
+    #
+    # Aggregation methods for whisper files. Entries are scanned in order,
+    # and first match wins. This file is scanned for changes every 60 seconds
+    #
+    #  [name]
+    #  pattern = <regex>
+    #  xFilesFactor = <float between 0 and 1>
+    #  aggregationMethod = <average|sum|last|max|min>
+    [min]
+    pattern = \.lower(_\d+)?$
+    xFilesFactor = 0.1
+    aggregationMethod = min
+
+    [max]
+    pattern = \.upper(_\d+)?$
+    xFilesFactor = 0.1
+    aggregationMethod = max
+
+    [sum]
+    pattern = \.sum$
+    xFilesFactor = 0
+    aggregationMethod = sum
+
+    [count_legacy]
+    pattern = ^stats_counts.*
+    xFilesFactor = 0
+    aggregationMethod = sum
+
+    [default_average]
+    pattern = .*
+    xFilesFactor = 0.3
+    aggregationMethod = average

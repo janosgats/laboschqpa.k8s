@@ -52,6 +52,10 @@ spec:
               mountPath: "/opt/graphite/conf/storage-aggregation.conf"
               subPath: "storage-aggregation.conf"
               readOnly: true
+            - name: graphite-conf
+              mountPath: "/opt/graphite/conf/storage-schemas.conf"
+              subPath: "storage-schemas.conf"
+              readOnly: true
           resources:
             limits:
               memory: 260Mi

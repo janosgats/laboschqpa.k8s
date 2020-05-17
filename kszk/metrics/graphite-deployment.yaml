@@ -55,6 +55,7 @@ spec:
           volumeMounts:
             - name: graphite-storage
               mountPath: "/opt/graphite/storage"
+              readOnly: true
             - name: graphite-conf
               mountPath: "/opt/graphite/conf/storage-aggregation.conf"
               subPath: "storage-aggregation.conf"

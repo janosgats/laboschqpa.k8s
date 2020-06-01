@@ -8,7 +8,7 @@ spec:
     namespace: default
     name: filehost-pvc-storedfiles
   capacity:
-    storage: 40Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteMany
     #  accessModes:

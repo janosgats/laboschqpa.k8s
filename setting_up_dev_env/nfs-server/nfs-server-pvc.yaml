@@ -3,8 +3,9 @@ kind: PersistentVolumeClaim
 metadata:
   name: nfs-server-pvc
 spec:
-  storageClassName: manual
-  volumeName: pv-volume-nfs-server
+# Uncomment these lines to use the HostPath PersistentVolume as storage for the nfs server
+#  storageClassName: manual
+#  volumeName: pv-volume-nfs-server
   accessModes:
     - ReadWriteOnce
   resources:

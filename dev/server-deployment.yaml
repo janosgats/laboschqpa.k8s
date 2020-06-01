@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: gjani/laboschqpa-server
+          image: gjani/laboschqpa-server:master
           command: ["java", "-jar", "-Dspring.profiles.active=k8s_dev",  "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:30005", "laboschqpa.server.jar"]
           ports:
             - containerPort: 8080

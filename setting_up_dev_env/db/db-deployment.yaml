@@ -22,8 +22,15 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: rootpw
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-data-volume
           command: ["sh"]
           args:
             - "-c"
             - "echo 'CREATE DATABASE IF NOT EXISTS `laboschcst_server`; CREATE DATABASE IF NOT EXISTS `laboschcst_filehost`;' > /docker-entrypoint-initdb.d/init.sql;
                                /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
+      volumes:
+        - name: mysql-data-volume
+          persistentVolumeClaim:
+            claimName: db-data-pvc

@@ -19,10 +19,10 @@ spec:
             backend:
               serviceName: server-cluster-ip
               servicePort: 8080
-          - path: /?(login/oauth2/code/)(.*)
-            backend:
-              serviceName: server-cluster-ip
-              servicePort: 8080
+#          - path: /?(login/oauth2/code/)(.*)
+#            backend:
+#              serviceName: server-cluster-ip
+#              servicePort: 8080
 
           - path: /?filehost/()(.*)
             backend:

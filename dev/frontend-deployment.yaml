@@ -16,7 +16,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: szalkaikrisztian/laboschqpa-frontend:master
+          image: gjani/laboschqpa-frontend:master
           ports:
-            - containerPort: 3000
-            - containerPort: 30015
+            - containerPort: 4200

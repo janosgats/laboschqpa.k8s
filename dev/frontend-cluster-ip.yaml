@@ -8,5 +8,4 @@ spec:
     component: frontend
   ports:
     - port: 3000
-      targetPort: 4200
-    
+      targetPort: 80

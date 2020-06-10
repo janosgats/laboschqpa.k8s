@@ -18,9 +18,4 @@ spec:
         - name: frontend
           image: gjani/laboschqpa-frontend:master
           ports:
-            - containerPort: 4200
-          command: ["sh"]
-          args:
-            - "-c"
-            - "ng serve --host 0.0.0.0 --disable-host-check"
-# Only use '--disable-host-check' in localdev! It's a security flaw!
+            - containerPort: 80

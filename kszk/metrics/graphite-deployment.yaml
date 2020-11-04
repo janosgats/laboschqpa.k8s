@@ -33,15 +33,15 @@ spec:
             httpGet:
               path: /
               port: 80
-            periodSeconds: 10
             initialDelaySeconds: 5
+            periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /
               port: 80
-            failureThreshold: 3
+            initialDelaySeconds: 35
             periodSeconds: 7
-            initialDelaySeconds: 10
+            failureThreshold: 3
           ports:
             - containerPort: 80
             - containerPort: 8125

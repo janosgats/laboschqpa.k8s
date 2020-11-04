@@ -1,0 +1,63 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: cst-ingress-protected-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1$2
+    # type of authentication
+    nginx.ingress.kubernetes.io/auth-type: basic
+    # name of the secret that contains the user/password definitions
+    nginx.ingress.kubernetes.io/auth-secret: ingress-basic-auth-secret
+    # message to display with an appropriate context why the authentication is required
+    nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required - Protected Resource'
+  namespace: csillagtura-sch-bme-hu
+  labels:
+    app: csillagtura-sch-bme-hu
+spec:
+  rules:
+    - host: server.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: server-cluster-ip
+              servicePort: 8080
+    - host: filehost.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: filehost-cluster-ip
+              servicePort: 4200
+    - host: graphite.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: graphite-cluster-ip
+              servicePort: 80
+    - host: grafana.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: grafana-cluster-ip
+              servicePort: 3000
+    - host: adminer.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: adminer-cluster-ip
+              servicePort: 8080
+  tls:
+    - hosts:
+        - server.cst.k8s.sch.bme.hu
+        - filehost.cst.k8s.sch.bme.hu
+        - adminer.cst.k8s.sch.bme.hu
+        - grafana.cst.k8s.sch.bme.hu
+        - graphite.cst.k8s.sch.bme.hu
+      secretName: tls-cert-cst

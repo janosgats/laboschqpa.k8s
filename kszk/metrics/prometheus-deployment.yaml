@@ -46,6 +46,7 @@ spec:
               mountPath: "/prometheus"
             - name: config-volume
               mountPath: /etc/prometheus
+              readOnly: true
           resources:
             limits:
               memory: 160Mi

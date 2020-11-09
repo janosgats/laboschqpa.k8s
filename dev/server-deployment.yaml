@@ -7,12 +7,16 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchLabels: 
+    matchLabels:
       component: server
   template:
     metadata:
       labels:
         component: server
+      annotations:
+        prometheus.custom/enable_scrape: "true"
+        prometheus.custom/scrape_port: "8080"
+        prometheus.custom/metrics_path: "/actuator/prometheus"
     spec:
       containers:
         - name: server
@@ -21,9 +25,9 @@ spec:
           ports:
             - containerPort: 8080
           volumeMounts:
-          - mountPath: "/app/secret/"
-            name: secrets
-            readOnly: true
+            - mountPath: "/app/secret/"
+              name: secrets
+              readOnly: true
       volumes:
         - name: secrets
           secret:

@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         component: grafana
+      annotations:
+        prometheus.custom/enable_scrape: "true"
     spec:
       containers:
         - name: grafana

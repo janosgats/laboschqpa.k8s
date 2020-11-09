@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-configmap
+  namespace: csillagtura-sch-bme-hu
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+      #evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+      scrape_timeout: 10s # scrape_timeout global default is 10s.
+
+    # Alertmanager configuration
+    alerting:
+      alertmanagers:
+        - static_configs:
+          - targets:
+            # - alertmanager:9093
+
+    # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+    rule_files:
+      # - "first_rules.yml"
+      # - "second_rules.yml"
+
+    # A scrape configuration containing exactly one endpoint to scrape:
+    # Here it's Prometheus itself.
+    scrape_configs:
+      # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+      - job_name: 'prometheus'
+        # metrics_path defaults to '/metrics'
+        # scheme defaults to 'http'.
+        static_configs:
+          - targets: ['prometheus-cluster-ip:9090']
+        relabel_configs:
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: kubernetes_pod_name
+      - job_name: 'k8s_pods'
+        kubernetes_sd_configs:
+          - role: pod
+        relabel_configs:
+          # Scrape only pods that has this annotation: prometheus.custom/enable_scrape: "true"
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_custom_enable_scrape]
+            action: keep
+            regex: true
+          # Scrape only single, desired port for the pod based on pod "prometheus.custom/scrape_port = <port>" annotation.
+          - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_custom_scrape_port]
+            action: replace
+            regex: ([^:]+)(?::\d+)?;(\d+)
+            replacement: $1:$2
+            target_label: __address__
+          # Customize metric path based on pod "prometheus.custom/metrics_path = <metrics path>" annotation.
+          - source_labels: [__meta_kubernetes_pod_annotation_prometheus_custom_metrics_path]
+            action: replace
+            target_label: __metrics_path__
+            regex: (.+)
+          - action: labelmap
+            regex: __meta_kubernetes_pod_label_(.+)
+          - source_labels: [__meta_kubernetes_namespace]
+            action: replace
+            target_label: kubernetes_namespace
+          - source_labels: [__meta_kubernetes_pod_name]
+            action: replace
+            target_label: kubernetes_pod_name

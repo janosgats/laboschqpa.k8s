@@ -39,6 +39,13 @@ spec:
             backend:
               serviceName: graphite-cluster-ip
               servicePort: 80
+    - host: prometheus.cst.k8s.sch.bme.hu
+      http:
+        paths:
+          - path: /?(.*)()
+            backend:
+              serviceName: prometheus-cluster-ip
+              servicePort: 9090
     - host: grafana.cst.k8s.sch.bme.hu
       http:
         paths:
@@ -60,4 +67,5 @@ spec:
         - adminer.cst.k8s.sch.bme.hu
         - grafana.cst.k8s.sch.bme.hu
         - graphite.cst.k8s.sch.bme.hu
+        - prometheus.cst.k8s.sch.bme.hu
       secretName: tls-cert-cst

@@ -16,6 +16,10 @@ spec:
     metadata:
       labels:
         component: server
+      annotations:
+        prometheus.custom/enable_scrape: "true"
+        prometheus.custom/scrape_port: "8080"
+        prometheus.custom/metrics_path: "/actuator/prometheus"
     spec:
       containers:
         - name: server

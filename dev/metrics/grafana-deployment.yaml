@@ -15,6 +15,8 @@ spec:
     metadata:
       labels:
         component: grafana
+      annotations:
+        prometheus.custom/enable_scrape: "true"
     spec:
       containers:
         - name: grafana
@@ -39,6 +41,6 @@ spec:
             requests:
               memory: 50Mi
       volumes:
-          - name: grafana-data
-            persistentVolumeClaim:
-              claimName: grafana-data-pvc
+        - name: grafana-data
+          persistentVolumeClaim:
+            claimName: grafana-data-pvc

@@ -31,12 +31,12 @@ spec:
             backend:
               serviceName: xxx-discard-this-path-xxx
               servicePort: 65535
-          - path: /?filehost/()(.*)
+          - path: /?filehost/(.*)()
             backend:
               serviceName: filehost-cluster-ip
               servicePort: 4200
 
-          - path: /?(.*)(.*)
+          - path: /?(.*)()
             backend:
               serviceName: frontend-cluster-ip
               servicePort: 3000

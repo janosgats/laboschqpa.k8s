@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ingress-service
@@ -11,34 +11,59 @@ spec:
       http:
         paths:
           - path: /?server/(.*)()
+            pathType: Exact
             backend:
-              serviceName: server-cluster-ip
-              servicePort: 8080
+              service:
+                name: server-cluster-ip
+                port:
+                  number: 8080
 #          - path: /?(login/oauth2/code/)(.*)
 #            backend:
 #              serviceName: server-cluster-ip
 #              servicePort: 8080
 
           - path: /?filehost/(.*)()
+            pathType: Exact
             backend:
-              serviceName: filehost-cluster-ip
-              servicePort: 4200
+              service:
+                name: filehost-cluster-ip
+                port:
+                  number: 4200
 
           - path: /?(.*)(.*)
+            pathType: Exact
             backend:
-              serviceName: frontend-cluster-ip
-              servicePort: 3000
+              service:
+                name: frontend-cluster-ip
+                port:
+                  number: 3000
     - host: grafana.local
       http:
         paths:
           - path: /?(.*)()
+            pathType: Exact
             backend:
-              serviceName: grafana-cluster-ip
-              servicePort: 3000
+              service:
+                name: grafana-cluster-ip
+                port:
+                  number: 3000
     - host: graphite.local
       http:
         paths:
           - path: /?(.*)()
+            pathType: Exact
             backend:
-              serviceName: graphite-cluster-ip
-              servicePort: 80
+              service:
+                name: graphite-cluster-ip
+                port:
+                  number: 80
+    - host: prometheus.local
+      http:
+        paths:
+          - path: /?(.*)()
+            pathType: Exact
+            backend:
+              service:
+                name: prometheus-cluster-ip
+                port:
+                  number: 9090

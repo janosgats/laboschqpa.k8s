@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: csillagtura-sch-bme-hu
+spec:
+  selector:
+    matchLabels:
+      component: prometheus
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        component: prometheus
+    spec:
+      serviceAccountName: prometheus
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.22.1
+          command:
+            - "/bin/prometheus"
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.retention.time=45d"
+            - "--web.page-title=QPA Web - Prometheus"
+            - "--storage.tsdb.path=/prometheus"
+            - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+            - "--web.console.templates=/usr/share/prometheus/consoles"
+          ports:
+            - containerPort: 9090
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /flags
+              port: 9090
+            initialDelaySeconds: 7
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /flags
+              port: 9090
+            initialDelaySeconds: 25
+            periodSeconds: 7
+            failureThreshold: 3
+          volumeMounts:
+            - name: prometheus-storage
+              mountPath: "/prometheus"
+            - name: config-volume
+              mountPath: /etc/prometheus
+          resources:
+            limits:
+              memory: 160Mi
+            requests:
+              memory: 120Mi
+      volumes:
+        - name: config-volume
+          configMap:
+            name: prometheus-configmap
+        - name: prometheus-storage
+          persistentVolumeClaim:
+            claimName: prometheus-storage-pvc

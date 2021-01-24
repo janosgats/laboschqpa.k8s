@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-volume-filehost-storedfiles
+  name: pv-volume-filehost-localdiskfiles
 spec:
   storageClassName: manual
   claimRef:
     namespace: default
-    name: filehost-pvc-storedfiles
+    name: filehost-pvc-localdiskfiles
   capacity:
     storage: 10Gi
   accessModes:
@@ -14,7 +14,7 @@ spec:
     #  accessModes:
     #    - ReadWriteMany
     #  hostPath:
-    #    path: "/host_mnt/c/k8s/persistent_volume/filehost/storedfiles"
+    #    path: "/host_mnt/c/k8s/persistent_volume/filehost/localdiskfiles"
   nfs:
     server: 10.96.10.96
     path: "/"

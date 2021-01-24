@@ -15,4 +15,4 @@
 #  accessModes:
 #    - ReadWriteOnce
 #  hostPath:
-#    path: "/host_mnt/c/k8s/persistent_volume/filehost/storedfiles"
+#    path: "/host_mnt/c/k8s/persistent_volume/filehost/localdiskfiles"

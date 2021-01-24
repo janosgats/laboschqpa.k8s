@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: filehost-pvc-storedfiles
+  name: filehost-pvc-localdiskfiles
 spec:
   storageClassName: manual
-  volumeName: pv-volume-filehost-storedfiles
+  volumeName: pv-volume-filehost-localdiskfiles
   accessModes:
     - ReadWriteMany
   resources:

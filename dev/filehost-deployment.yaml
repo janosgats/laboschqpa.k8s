@@ -30,12 +30,12 @@ spec:
             - mountPath: "/app/secret/"
               name: secrets
               readOnly: true
-            - mountPath: "/srv/filehost/storedfiles/mnt1/"
-              name: filehost-storedfiles
+            - mountPath: "/srv/filehost/localdiskfiles/mnt1/"
+              name: filehost-localdiskfiles
       volumes:
         - name: secrets
           secret:
             secretName: laboschqpa-filehost-secrets
-        - name: filehost-storedfiles
+        - name: filehost-localdiskfiles
           persistentVolumeClaim:
-            claimName: filehost-pvc-storedfiles
+            claimName: filehost-pvc-localdiskfiles

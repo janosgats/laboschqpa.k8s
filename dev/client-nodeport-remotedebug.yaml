@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-nodeport-remotedebug
+spec:
+  type: NodePort
+  selector:
+    component: client
+  ports:
+  - name: remote-debug
+    port: 9229
+    targetPort: 9229
+    nodePort: 30229

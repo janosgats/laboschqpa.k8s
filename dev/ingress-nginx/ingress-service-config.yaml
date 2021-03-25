@@ -34,7 +34,7 @@ spec:
             pathType: Exact
             backend:
               service:
-                name: frontend-cluster-ip
+                name: client-cluster-ip
                 port:
                   number: 3000
     - host: grafana.local

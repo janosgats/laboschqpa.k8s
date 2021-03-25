@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    component: frontend
+  namespace: csillagtura-sch-bme-hu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: frontend
+  template:
+    metadata:
+      labels:
+        component: frontend
+    spec:
+      containers:
+        - name: frontend
+          imagePullPolicy: Always
+#          image: gjani/laboschqpa-frontend:master
+          image: gjani/laboschqpa-frontend:dev
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 8
+            periodSeconds: 4
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: "/etc/nginx/conf.d/default.conf"
+              subPath: "conf.d__default.conf"
+              readOnly: true
+          resources:
+            limits:
+              memory: 110Mi
+            requests:
+              memory: 80Mi
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: frontend-configmap-nginx

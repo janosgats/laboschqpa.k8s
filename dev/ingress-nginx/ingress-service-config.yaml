@@ -10,26 +10,16 @@ spec:
     - host: localhost
       http:
         paths:
-          - path: /?server/(.*)()
+          - path: /?(.*)(.*)
             pathType: Exact
             backend:
               service:
-                name: server-cluster-ip
+                name: client-cluster-ip
                 port:
-                  number: 8080
-#          - path: /?(login/oauth2/code/)(.*)
-#            backend:
-#              serviceName: server-cluster-ip
-#              servicePort: 8080
-
-          - path: /?filehost/(.*)()
-            pathType: Exact
-            backend:
-              service:
-                name: filehost-cluster-ip
-                port:
-                  number: 4200
-
+                  number: 3000
+    - host: janosgats.com
+      http:
+        paths:
           - path: /?(.*)(.*)
             pathType: Exact
             backend:
@@ -67,3 +57,13 @@ spec:
                 name: prometheus-cluster-ip
                 port:
                   number: 9090
+    - host: server.local
+      http:
+        paths:
+          - path: /?(.*)()
+            pathType: Exact
+            backend:
+              service:
+                name: server-cluster-ip
+                port:
+                  number: 8080

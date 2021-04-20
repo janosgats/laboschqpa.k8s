@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-filehost-service
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /api/exposed/$1
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+spec:
+  rules:
+    - host: localhost
+      http:
+        paths:
+          - path: /?filehost/(.*)
+            pathType: Exact
+            backend:
+              service:
+                name: filehost-cluster-ip
+                port:
+                  number: 4200
+    - host: janosgats.com
+      http:
+        paths:
+          - path: /?filehost/(.*)
+            pathType: Exact
+            backend:
+              service:
+                name: filehost-cluster-ip
+                port:
+                  number: 4200

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: qpa
+  name: filehost
+  labels:
+    component: filehost
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: filehost
+  template:
+    metadata:
+      labels:
+        component: filehost
+      annotations:
+        prometheus.custom/enable_scrape: "true"
+        prometheus.custom/scrape_port: "4200"
+        prometheus.custom/metrics_path: "/actuator/prometheus"
+    spec:
+      serviceAccountName: cloud-sql-auth-proxy
+      securityContext:
+        fsGroup: 10002
+      containers:
+        - name: filehost
+          image: gjani/laboschqpa-filehost:master
+          command: ["java", "-jar", "-Dspring.profiles.active=gke_prod", "laboschqpa.filehost.jar"]
+          readinessProbe:
+            httpGet:
+              path: /health/ping
+              port: 4200
+            initialDelaySeconds: 8
+            periodSeconds: 4
+          ports:
+            - containerPort: 4200
+          volumeMounts:
+            - mountPath: "/app/secret/"
+              name: secrets
+              readOnly: true
+#            - mountPath: "/srv/filehost/localdiskfiles/mnt1/"
+#              name: filehost-localdiskfiles
+        - name: cloud-sql-auth-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy
+          command:
+            - "/cloud_sql_proxy"
+            - "-ip_address_types=PRIVATE"
+            - "-instances=ringed-bebop-312422:europe-central2:laboschqpa=tcp:3306"
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu:    "0.5"
+      volumes:
+        - name: secrets
+          secret:
+            secretName: laboschqpa-filehost-secrets
+#        - name: filehost-localdiskfiles
+#          persistentVolumeClaim:
+#            claimName: filehost-pvc-localdiskfiles

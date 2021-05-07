@@ -34,6 +34,16 @@ spec:
                 name: server-cluster-ip
                 port:
                   number: 8080
+    - host: filehost.schq.party
+      http:
+        paths:
+          - path: /?(.*)()
+            pathType: Exact
+            backend:
+              service:
+                name: filehost-cluster-ip
+                port:
+                  number: 4200
     - host: adminer.schq.party
       http:
         paths:
@@ -44,12 +54,13 @@ spec:
                 name: adminer-cluster-ip
                 port:
                   number: 8080
-  tls:
-    - hosts:
-        - client.schq.party
-        - server.schq.party
-        - filehost.schq.party
-        - adminer.schq.party
-        - grafana.schq.party
-        - prometheus.schq.party
-      secretName: schq-party-tls-cert-secret
+#TODO: re-enable custom cert
+#  tls:
+#    - hosts:
+#        - client.schq.party
+#        - server.schq.party
+#        - filehost.schq.party
+#        - adminer.schq.party
+#        - grafana.schq.party
+#        - prometheus.schq.party
+#      secretName: schq-party-tls-cert-secret

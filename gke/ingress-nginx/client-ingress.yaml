@@ -31,8 +31,9 @@ spec:
                 name: client-cluster-ip
                 port:
                   number: 3000
-  tls:
-    - hosts:
-        - schq.party
-        - www.schq.party
-      secretName: schq-party-tls-cert-secret
+#TODO: re-enable custom cert
+#  tls:
+#    - hosts:
+#        - schq.party
+#        - www.schq.party
+#      secretName: schq-party-tls-cert-secret

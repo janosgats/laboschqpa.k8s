@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: qpa
+  name: cert-handler-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+
+    cert-manager.io/cluster-issuer: "letsencrypt"
+spec:
+  rules:
+    - host: ignored-rule-host
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: xxx-discard-this-path-xxx
+                port:
+                  number: 65535
+  tls:
+    - hosts:
+        # For client-ingress
+        - schq.party
+        - www.schq.party
+
+        # For protected-ingress
+        - client.schq.party
+        - server.schq.party
+        - filehost.schq.party
+        - adminer.schq.party
+        - grafana.schq.party
+        - prometheus.schq.party
+      secretName: schq-party-tls-cert-secret

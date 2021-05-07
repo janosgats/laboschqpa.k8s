@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  namespace: cert-manager
+  name: letsencrypt
+spec:
+  acme:
+#    server: https://acme-v02.api.letsencrypt.org/directory
+    #TODO: switch back to production from staging
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: "gatsjanos@gmail.com"
+    privateKeySecretRef:
+      name: letsencrypt-renewal-verification-secret
+    solvers:
+      - http01:
+          ingress:
+            class: nginx

@@ -1,0 +1,21 @@
+apiVersion: cert-manager.io/v1
+
+kind: Certificate
+metadata:
+  namespace: cert-manager
+  name: schq-party-certificate
+spec:
+  secretName: schq-party-tls-cert-secret
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
+  commonName: schq.party
+  dnsNames:
+    - schq.party
+    - www.schq.party
+    - client.schq.party
+    - server.schq.party
+    - filehost.schq.party
+    - adminer.schq.party
+    - grafana.schq.party
+    - prometheus.schq.party

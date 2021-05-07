@@ -1,0 +1,13 @@
+kubectl -n=qpa create secret generic protected-ingress-basic-auth-secret --from-file=auth=protected-ingress-basic-auth.htpasswd
+
+kubectl -n=qpa create secret generic laboschqpa-server-secrets --from-file=secrets.properties=server-secrets.properties
+kubectl -n=qpa create secret generic laboschqpa-filehost-secrets --from-file=secrets.properties=filehost-secrets.properties
+
+
+gcloud iam service-accounts add-iam-policy-binding --role roles/iam.workloadIdentityUser --member "serviceAccount:ringed-bebop-312422.svc.id.goog[qpa/cloud-sql-auth-proxy]" cloud-sql-auth-proxy@ringed-bebop-312422.iam.gserviceaccount.com
+
+
+kubectl create namespace cert-manager
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --version v1.2.0 --create-namespace

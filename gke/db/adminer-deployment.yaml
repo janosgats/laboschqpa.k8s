@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: qpa
+  name: adminer
+  labels:
+    component: adminer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: adminer
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: adminer
+    spec:
+      serviceAccountName: cloud-sql-auth-proxy
+      containers:
+        - name: adminer
+          image: adminer
+          resources:
+            limits:
+              memory: 50Mi
+            requests:
+              memory: 20Mi
+          ports:
+            - containerPort: 8080
+        - name: cloud-sql-auth-proxy
+          # It is recommended to use the latest version of the Cloud SQL proxy
+          # Make sure to update on a regular schedule!
+          image: gcr.io/cloudsql-docker/gce-proxy
+          command:
+            - "/cloud_sql_proxy"
+
+            # If connecting from a VPC-native GKE cluster, you can use the
+            # following flag to have the proxy connect over private IP
+            - "-ip_address_types=PRIVATE"
+
+            # Replace DB_PORT with the port the proxy should listen on
+            # Defaults: MySQL: 3306, Postgres: 5432, SQLServer: 1433
+            - "-instances=ringed-bebop-312422:europe-central2:laboschqpa=tcp:3306"
+          securityContext:
+            # The default Cloud SQL proxy image runs as the
+            # "nonroot" user and group (uid: 65532) by default.
+            runAsNonRoot: true
+          # Resource configuration depends on an application's requirements. You
+          # should adjust the following values based on what your application
+          # needs. For details, see https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+          resources:
+            requests:
+              # The proxy's memory use scales linearly with the number of active
+              # connections. Fewer open connections will use less memory. Adjust
+              # this value based on your application's requirements.
+              memory: "100Mi"
+              # The proxy's CPU use scales linearly with the amount of IO between
+              # the database and the application. Adjust this value based on your
+              # application's requirements.
+              cpu:    "0.2"

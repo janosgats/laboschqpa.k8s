@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: qpa
+  name: server
+  labels:
+    component: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: server
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        component: server
+      annotations:
+        prometheus.custom/enable_scrape: "true"
+        prometheus.custom/scrape_port: "8080"
+        prometheus.custom/metrics_path: "/actuator/prometheus"
+    spec:
+      serviceAccountName: cloud-sql-auth-proxy
+      containers:
+        - name: server
+          imagePullPolicy: Always
+          image: gjani/laboschqpa-server:master
+          command: ["java", "-jar", "-Dspring.profiles.active=gke_prod", "laboschqpa.server.jar"]
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 8
+            periodSeconds: 4
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: "/app/secret/"
+              name: secrets
+              readOnly: true
+          resources:
+            requests:
+              memory: 600Mi
+        - name: cloud-sql-auth-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy
+          command:
+            - "/cloud_sql_proxy"
+            - "-ip_address_types=PRIVATE"
+            - "-instances=ringed-bebop-312422:europe-central2:laboschqpa=tcp:3306"
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu:    "0.5"
+      volumes:
+        - name: secrets
+          secret:
+            secretName: laboschqpa-server-secrets

@@ -54,6 +54,16 @@ spec:
                 name: adminer-cluster-ip
                 port:
                   number: 8080
+    - host: grafana.schq.party
+      http:
+        paths:
+          - path: /?(.*)()
+            pathType: Exact
+            backend:
+              service:
+                name: grafana-external-name
+                port:
+                  number: 3000
 #TODO: re-enable custom cert
 #  tls:
 #    - hosts:

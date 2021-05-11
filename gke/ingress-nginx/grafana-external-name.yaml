@@ -1,0 +1,8 @@
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: qpa
+  name: grafana-external-name
+spec:
+  type: ExternalName
+  externalName: grafana-cluster-ip.monitoring.svc.cluster.local

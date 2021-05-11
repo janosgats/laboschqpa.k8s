@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: monitoring
+  name: grafana
+  labels:
+    component: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: grafana
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: grafana
+      annotations:
+        prometheus.custom/enable_scrape: "true"
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:7.5.5
+          env:
+            - name: GF_PATHS_DATA
+              value: "/run/storage/var/lib/grafana"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - mountPath: "/run/storage/var/lib/grafana"
+              name: grafana-data
+          resources:
+            requests:
+              memory: 100Mi
+      initContainers:
+        - name: mount-data-dir-chowner
+          image: busybox
+          command: ["sh", "-c", "chown -R 472:0 /run/storage/var/lib/grafana"]
+          volumeMounts:
+            - mountPath: "/run/storage/var/lib/grafana"
+              name: grafana-data
+      volumes:
+        - name: grafana-data
+          persistentVolumeClaim:
+            claimName: grafana-data-pvc

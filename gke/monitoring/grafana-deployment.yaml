@@ -18,6 +18,7 @@ spec:
         component: grafana
       annotations:
         prometheus.custom/enable_scrape: "true"
+        prometheus.custom/scrape_port: "3000"
     spec:
       containers:
         - name: grafana

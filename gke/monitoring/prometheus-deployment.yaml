@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: monitoring
+  name: prometheus
+spec:
+  selector:
+    matchLabels:
+      component: prometheus
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: prometheus
+    spec:
+      serviceAccountName: prometheus
+      containers:
+        - name: prometheus
+          image: prom/prometheus:v2.26.0
+          command:
+            - "/bin/prometheus"
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.retention.time=90d"
+            - "--web.page-title=QPA Web - Prometheus"
+            - "--storage.tsdb.path=/prometheus"
+            - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+            - "--web.console.templates=/usr/share/prometheus/consoles"
+          ports:
+            - containerPort: 9090
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /flags
+              port: 9090
+            initialDelaySeconds: 7
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /flags
+              port: 9090
+            initialDelaySeconds: 25
+            periodSeconds: 7
+            failureThreshold: 3
+          volumeMounts:
+            - name: prometheus-storage
+              mountPath: "/prometheus"
+            - name: config-volume
+              mountPath: /etc/prometheus
+              readOnly: true
+          resources:
+            requests:
+              memory: 160Mi
+      initContainers:
+        - name: mount-data-dir-chowner
+          image: busybox
+          command: ["sh", "-c", "chown -R 65534:65534 /prometheus"]
+          volumeMounts:
+            - mountPath: "/prometheus"
+              name: prometheus-storage
+      volumes:
+        - name: config-volume
+          configMap:
+            name: prometheus-configmap
+        - name: prometheus-storage
+          persistentVolumeClaim:
+            claimName: prometheus-storage-pvc

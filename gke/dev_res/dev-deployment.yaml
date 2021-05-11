@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: qpa
+  name: dev
+  labels:
+    component: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: dev
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: dev
+    spec:
+      containers:
+        - name: dev
+          image: centos
+          command:
+            - "sh"
+            - "-c"
+          args:
+            - "yum install -y nfs-utils nmap unzip wget java && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.2.zip && unzip apache-jmeter-5.2.zip && sleep 99999999"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: 100Mi

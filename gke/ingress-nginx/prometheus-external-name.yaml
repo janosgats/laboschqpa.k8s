@@ -1,0 +1,8 @@
+kind: Service
+apiVersion: v1
+metadata:
+  namespace: qpa
+  name: prometheus-external-name
+spec:
+  type: ExternalName
+  externalName: prometheus-cluster-ip.monitoring.svc.cluster.local

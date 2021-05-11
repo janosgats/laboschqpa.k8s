@@ -64,6 +64,16 @@ spec:
                 name: grafana-external-name
                 port:
                   number: 3000
+    - host: prometheus.schq.party
+      http:
+        paths:
+          - path: /?(.*)()
+            pathType: Exact
+            backend:
+              service:
+                name: prometheus-external-name
+                port:
+                  number: 9090
 #TODO: re-enable custom cert
 #  tls:
 #    - hosts:

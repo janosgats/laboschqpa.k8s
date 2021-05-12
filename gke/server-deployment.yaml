@@ -52,7 +52,7 @@ spec:
             runAsNonRoot: true
           resources:
             requests:
-              memory: "500Mi"
+              memory: "200Mi"
               cpu:    "0.5"
       volumes:
         - name: secrets

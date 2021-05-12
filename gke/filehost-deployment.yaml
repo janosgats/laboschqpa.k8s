@@ -40,6 +40,9 @@ spec:
               readOnly: true
 #            - mountPath: "/srv/filehost/localdiskfiles/mnt1/"
 #              name: filehost-localdiskfiles
+          resources:
+            requests:
+              memory: 600Mi
         - name: cloud-sql-auth-proxy
           image: gcr.io/cloudsql-docker/gce-proxy
           command:
@@ -50,8 +53,8 @@ spec:
             runAsNonRoot: true
           resources:
             requests:
-              memory: "500Mi"
-              cpu:    "0.5"
+              memory: "200Mi"
+              cpu:    "0.3"
       volumes:
         - name: secrets
           secret:

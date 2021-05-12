@@ -27,3 +27,6 @@ spec:
             periodSeconds: 4
           ports:
             - containerPort: 3000
+          resources:
+            requests:
+              memory: 150Mi

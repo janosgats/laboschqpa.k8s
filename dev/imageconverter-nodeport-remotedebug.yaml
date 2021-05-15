@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: imageconverter-nodeport-remotedebug
+spec:
+  type: NodePort
+  selector:
+    component: imageconverter
+  ports:
+  - name: remote-debug
+    port: 30007
+    targetPort: 30007
+    nodePort: 30007

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: imageconverter
+  labels:
+    component: imageconverter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: imageconverter
+  template:
+    metadata:
+      labels:
+        component: imageconverter
+      annotations:
+        prometheus.custom/enable_scrape: "true"
+        prometheus.custom/scrape_port: "4300"
+        prometheus.custom/metrics_path: "/actuator/prometheus"
+    spec:
+      securityContext:
+        fsGroup: 10003
+      containers:
+        - name: imageconverter
+          image: gjani/laboschqpa-imageconverter:master
+          command: ["java", "-jar", "-Dspring.profiles.active=k8s_dev",  "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:30007", "laboschqpa.imageconverter.jar"]
+          ports:
+            - containerPort: 4300
+          volumeMounts:
+            - mountPath: "/app/secret/"
+              name: secrets
+              readOnly: true
+      volumes:
+        - name: secrets
+          secret:
+            secretName: laboschqpa-imageconverter-secrets

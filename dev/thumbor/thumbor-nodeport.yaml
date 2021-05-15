@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: thumbor-nodeport
+spec:
+  type: NodePort
+  selector:
+    component: thumbor
+  ports:
+    - name: http-thumbor
+      port: 80
+      targetPort: 80
+      nodePort: 30081

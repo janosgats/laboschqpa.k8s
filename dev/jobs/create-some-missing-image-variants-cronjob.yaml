@@ -1,0 +1,20 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: create-some-missing-image-variants-cronjob
+spec:
+  schedule: "0 * * * *"
+  startingDeadlineSeconds: 3000
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      template:
+        spec:
+          containers:
+            - name: apicaller
+              image: yauritux/busybox-curl
+              args:
+                - /bin/sh
+                - -c
+                - curl --max-time 15 -X POST http://filehost-cluster-ip:4200/api/internal/noAuth/imageVariant/createSomeMissingVariants
+          restartPolicy: Never

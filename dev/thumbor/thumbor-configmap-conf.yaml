@@ -51,7 +51,7 @@ data:
 
     ## Quality index used for generated JPEG images
     ## Defaults to: 80
-    QUALITY = 75
+    QUALITY = 70
 
     ## Exports JPEG images with the progressive flag set.
     ## Defaults to: True

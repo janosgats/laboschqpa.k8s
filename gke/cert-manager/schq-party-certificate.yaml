@@ -16,6 +16,8 @@ spec:
     - client.schq.party
     - server.schq.party
     - filehost.schq.party
+    - imageconverter.schq.party
+    - thumbor.schq.party
     - adminer.schq.party
     - grafana.schq.party
     - prometheus.schq.party

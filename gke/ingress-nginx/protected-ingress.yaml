@@ -74,13 +74,14 @@ spec:
                 name: prometheus-external-name
                 port:
                   number: 9090
-#TODO: re-enable custom cert
-#  tls:
-#    - hosts:
-#        - client.schq.party
-#        - server.schq.party
-#        - filehost.schq.party
-#        - adminer.schq.party
-#        - grafana.schq.party
-#        - prometheus.schq.party
-#      secretName: schq-party-tls-cert-secret
+  tls:
+    - hosts:
+        - client.schq.party
+        - server.schq.party
+        - filehost.schq.party
+        - imageconverter.schq.party
+        - thumbor.schq.party
+        - adminer.schq.party
+        - grafana.schq.party
+        - prometheus.schq.party
+      secretName: schq-party-tls-cert-secret

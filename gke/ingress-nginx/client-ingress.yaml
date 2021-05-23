@@ -21,19 +21,8 @@ spec:
                 name: client-cluster-ip
                 port:
                   number: 3000
-    - host: www.schq.party
-      http:
-        paths:
-          - path: /?(.*)(.*)
-            pathType: Exact
-            backend:
-              service:
-                name: client-cluster-ip
-                port:
-                  number: 3000
-#TODO: re-enable custom cert
-#  tls:
-#    - hosts:
-#        - schq.party
-#        - www.schq.party
-#      secretName: schq-party-tls-cert-secret
+  tls:
+    - hosts:
+        - schq.party
+        - www.schq.party
+      secretName: schq-party-tls-cert-secret

@@ -10,6 +10,8 @@ spec:
   selector:
     matchLabels:
       component: filehost
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:

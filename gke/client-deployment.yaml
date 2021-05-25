@@ -10,6 +10,8 @@ spec:
   selector:
     matchLabels:
       component: client
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:

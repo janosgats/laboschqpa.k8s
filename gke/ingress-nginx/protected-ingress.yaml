@@ -44,6 +44,26 @@ spec:
                 name: filehost-cluster-ip
                 port:
                   number: 4200
+    - host: imageconverter.schq.party
+      http:
+        paths:
+          - path: /?(.*)()
+            pathType: Exact
+            backend:
+              service:
+                name: imageconverter-cluster-ip
+                port:
+                  number: 4300
+    - host: thumbor.schq.party
+      http:
+        paths:
+          - path: /?(.*)()
+            pathType: Exact
+            backend:
+              service:
+                name: thumbor-cluster-ip
+                port:
+                  number: 80
     - host: adminer.schq.party
       http:
         paths:

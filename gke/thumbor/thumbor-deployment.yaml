@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: qpa
+  name: thumbor
+  labels:
+    component: thumbor
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: thumbor
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        component: thumbor
+    spec:
+      containers:
+        - name: thumbor
+          image: minimalcompact/thumbor:6.7.5
+          volumeMounts:
+            - name: thumbor-conf
+              mountPath: "/app/thumbor.conf"
+              subPath: "thumbor.conf"
+              readOnly: true
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /health/ping
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health/ping
+              port: 80
+            initialDelaySeconds: 25
+            periodSeconds: 7
+            failureThreshold: 3
+          resources:
+            requests:
+              memory: 250Mi
+      volumes:
+        - name: thumbor-conf
+          configMap:
+            name: thumbor-configmap-conf

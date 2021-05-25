@@ -1,6 +1,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
+  namespace: qpa
   name: create-some-missing-image-variants-cronjob
 spec:
   schedule: "*/30 * * * *"

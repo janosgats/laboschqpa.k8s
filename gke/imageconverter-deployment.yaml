@@ -1,14 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: qpa
   name: imageconverter
   labels:
     component: imageconverter
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       component: imageconverter
+  strategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -21,7 +24,7 @@ spec:
       containers:
         - name: imageconverter
           image: gjani/laboschqpa-imageconverter:master
-          command: ["java", "-jar", "-Dspring.profiles.active=k8s_dev",  "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:30007", "laboschqpa.imageconverter.jar"]
+          command: ["java", "-jar", "-Dspring.profiles.active=gke_prod", "laboschqpa.imageconverter.jar"]
           readinessProbe:
             httpGet:
               path: /health/ping

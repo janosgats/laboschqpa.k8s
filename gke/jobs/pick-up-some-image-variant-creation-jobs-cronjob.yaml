@@ -1,10 +1,11 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: create-some-missing-image-variants-cronjob
+  namespace: qpa
+  name: pick-up-some-image-variant-creation-jobs-cronjob
 spec:
-  schedule: "*/30 * * * *"
-  startingDeadlineSeconds: 1500
+  schedule: "*/1 * * * *"
+  startingDeadlineSeconds: 40
   jobTemplate:
     spec:
       backoffLimit: 0
@@ -16,5 +17,5 @@ spec:
               args:
                 - /bin/sh
                 - -c
-                - curl --max-time 15 -X POST http://filehost-cluster-ip:4200/api/internal/noAuth/imageVariant/createSomeMissingVariants
+                - curl --max-time 8 -X POST http://filehost-cluster-ip:4200/api/internal/noAuth/imageVariant/pickUpSomeCreationJobs
           restartPolicy: Never

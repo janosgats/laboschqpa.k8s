@@ -1,0 +1,1 @@
+kubectl -n=jenkins create secret generic jenkins-ingress-basic-auth-secret --from-file=auth=jenkins-ingress-basic-auth.htpasswd

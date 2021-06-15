@@ -23,6 +23,7 @@ spec:
     spec:
       containers:
         - name: imageconverter
+          imagePullPolicy: Always
           image: gjani/laboschqpa-imageconverter:master
           command: ["java", "-jar", "-Dspring.profiles.active=gke_prod", "laboschqpa.imageconverter.jar"]
           readinessProbe:

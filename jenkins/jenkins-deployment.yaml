@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: jenkins
+  name: jenkins
+  labels:
+    component: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: jenkins
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: jenkins
+    spec:
+      securityContext:
+        runAsUser: 0
+      containers:
+        - name: jenkins
+          imagePullPolicy: Always
+          image: gjani/jenkins-for-gke:2.289.1-lts-jdk11
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: 8080
+            initialDelaySeconds: 8
+            periodSeconds: 4
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: jenkins-home
+              mountPath: /var/jenkins_home
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+#            - name: docker-client
+#              mountPath: /usr/bin/docker
+          resources:
+            requests:
+              memory: 1400Mi
+      volumes:
+        - name: jenkins-home
+          persistentVolumeClaim:
+            claimName: jenkins-home-pvc
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+#        - name: docker-client
+#          hostPath:
+#            path: /usr/bin/docker

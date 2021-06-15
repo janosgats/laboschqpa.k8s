@@ -26,6 +26,7 @@ spec:
         fsGroup: 10002
       containers:
         - name: filehost
+          imagePullPolicy: Always
           image: gjani/laboschqpa-filehost:master
           command: ["java", "-jar", "-Dspring.profiles.active=gke_prod", "laboschqpa.filehost.jar"]
           readinessProbe:

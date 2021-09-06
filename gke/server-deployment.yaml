@@ -47,7 +47,7 @@ spec:
           command:
             - "/cloud_sql_proxy"
             - "-ip_address_types=PRIVATE"
-            - "-instances=ringed-bebop-312422:europe-central2:laboschqpa=tcp:3306"
+            - "-instances=qpa-web-2:europe-central2:laboschqpa=tcp:3306"
           securityContext:
             runAsNonRoot: true
           resources:

@@ -7,7 +7,7 @@ kubectl -n=qpa create secret generic laboschqpa-filehost-secrets --from-file=sec
 kubectl -n=qpa create secret generic laboschqpa-imageconverter-secrets --from-file=secrets.properties=imageconverter-secrets.properties
 
 
-gcloud iam service-accounts add-iam-policy-binding --role roles/iam.workloadIdentityUser --member "serviceAccount:ringed-bebop-312422.svc.id.goog[qpa/cloud-sql-auth-proxy]" cloud-sql-auth-proxy@ringed-bebop-312422.iam.gserviceaccount.com
+gcloud iam service-accounts add-iam-policy-binding --role roles/iam.workloadIdentityUser --member "serviceAccount:qpa-web-2.svc.id.goog[qpa/cloud-sql-auth-proxy]" cloud-sql-auth-proxy@qpa-web-2.iam.gserviceaccount.com
 
 
 helm repo add jetstack https://charts.jetstack.io

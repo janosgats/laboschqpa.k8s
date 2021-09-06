@@ -6,7 +6,7 @@ metadata:
   labels:
     component: thumbor
 spec:
-  replicas: 6
+  replicas: 10
   selector:
     matchLabels:
       component: thumbor

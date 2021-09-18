@@ -1,4 +1,4 @@
-helm install my-release ingress-nginx/ingress-nginx
+helm install main-release ingress-nginx/ingress-nginx
 
 kubectl -n=qpa create secret generic protected-ingress-basic-auth-secret --from-file=auth=protected-ingress-basic-auth.htpasswd
 

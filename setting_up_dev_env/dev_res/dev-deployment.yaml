@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev
+  labels:
+    component: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: dev
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        component: dev
+    spec:
+      containers:
+        - name: dev
+          image: centos
+          command:
+            - "sh"
+            - "-c"
+          args:
+            - "yum install -y nfs-utils nmap unzip wget java zip && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.2.zip && unzip apache-jmeter-5.2.zip && sleep 99999999"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: 100Mi
+#          volumeMounts:
+#            - mountPath: "/mnt/grafana-data"
+#              name: grafana-data
+#      volumes:
+#        - name: grafana-data
+#          persistentVolumeClaim:
+#            claimName: grafana-data-pvc

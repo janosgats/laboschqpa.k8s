@@ -6,7 +6,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-# staging
+# staging let's encrypt server:
 #    server: https://acme-staging-v02.api.letsencrypt.org/directory
     email: "gatsjanos@gmail.com"
     privateKeySecretRef:

@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: monitoring
-  name: dev-monitoring
+  namespace: jenkins
+  name: dev-jenkins
   labels:
-    component: dev-monitoring
+    component: dev-jenkins
 spec:
   replicas: 0
   selector:
     matchLabels:
-      component: dev-monitoring
+      component: dev-jenkins
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        component: dev-monitoring
+        component: dev-jenkins
     spec:
       containers:
         - name: dev
@@ -31,9 +31,9 @@ spec:
             requests:
               memory: 100Mi
           volumeMounts:
-            - mountPath: "/mnt/grafana-data"
-              name: grafana-data
+            - mountPath: "/mnt/jenkins-home"
+              name: jenkins-home
       volumes:
-        - name: grafana-data
+        - name: jenkins-home
           persistentVolumeClaim:
-            claimName: grafana-data-pvc
+            claimName: jenkins-home-pvc

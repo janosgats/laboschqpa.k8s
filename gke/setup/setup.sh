@@ -1,6 +1,7 @@
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 helm install main-release ingress-nginx/ingress-nginx
+helm upgrade main-release ingress-nginx/ingress-nginx --set controller.metrics.enabled=true --set-string controller.podAnnotations."prometheus\.custom/enable_scrape"="true" --set-string controller.podAnnotations."prometheus\.custom/scrape_port"="10254"
 
 kubectl -n=qpa create secret generic protected-ingress-basic-auth-secret --from-file=auth=protected-ingress-basic-auth.htpasswd
 

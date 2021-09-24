@@ -6,7 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
 
-    nginx.ingress.kubernetes.io/limit-rpm: "30"
+    nginx.ingress.kubernetes.io/limit-rpm: "250"
 
     nginx.ingress.kubernetes.io/rewrite-target: /api/exposed/$1
     nginx.ingress.kubernetes.io/from-to-www-redirect: "true"

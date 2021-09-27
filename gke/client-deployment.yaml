@@ -30,7 +30,7 @@ spec:
               port: 3000
             initialDelaySeconds: 8
             periodSeconds: 4
-            successThreshold: 5
+            successThreshold: 6
           ports:
             - containerPort: 3000
           resources:

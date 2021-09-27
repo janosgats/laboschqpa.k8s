@@ -12,6 +12,9 @@ spec:
       component: client
   strategy:
     type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
   template:
     metadata:
       labels:
@@ -27,6 +30,7 @@ spec:
               port: 3000
             initialDelaySeconds: 8
             periodSeconds: 4
+            successThreshold: 5
           ports:
             - containerPort: 3000
           resources:
